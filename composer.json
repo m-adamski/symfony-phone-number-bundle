@@ -1,0 +1,45 @@
+{
+    "name": "m-adamski/symfony-phone-number-bundle",
+    "description": "Bundle for Symfony 4 which integrates with the libphonenumber library",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Maciej Adamski",
+            "email": "m.adamski@ideacode.pl"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "ext-json": "*",
+        "giggsey/libphonenumber-for-php": "^8.10",
+        "symfony/form": "^3.4|^4.1",
+        "symfony/framework-bundle": "^3.4|^4.1",
+        "symfony/orm-pack": "^1.0",
+        "symfony/twig-bundle": "^3.4|^4.1",
+        "symfony/validator": "^3.4|^4.1"
+    },
+    "require-dev": {
+        "kint-php/kint": "^3.0",
+        "phpunit/phpunit": "^7.4",
+        "symfony/phpunit-bridge": "^4.1"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "Adamski\\Symfony\\PhoneNumberBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Adamski\\Symfony\\PhoneNumberBundleTests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}

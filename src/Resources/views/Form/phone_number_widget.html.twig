@@ -1,0 +1,16 @@
+{% block phone_number_widget -%}
+    {% set validation_class = '' %}
+    {% if valid == false %}
+        {% set validation_class = ' is-invalid' %}
+    {% endif %}
+
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-row' ~ validation_class)|trim}) %}
+    <section {{ block('widget_container_attributes') }}>
+        <section class="col">
+            {{- form_widget(form.country) -}}
+        </section>
+        <section class="col">
+            {{- form_widget(form.number, {valid: valid}) -}}
+        </section>
+    </section>
+{%- endblock phone_number_widget %}
