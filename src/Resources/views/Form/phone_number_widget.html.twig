@@ -10,7 +10,7 @@
             {{- form_widget(form.country) -}}
         </section>
         <section class="col">
-            {{- form_widget(form.number, {valid: valid}) -}}
+            {{- form_widget(form.number, {'attr': {'placeholder': attr.placeholder|default('')}}) -}}
         </section>
     </section>
 {%- endblock phone_number_widget %}
