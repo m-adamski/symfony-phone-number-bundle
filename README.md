@@ -14,7 +14,7 @@ $ composer require m-adamski/symfony-phone-number-bundle
 
 Register new Doctrine Type in ``config/packages/doctrine.yaml``
 
-```(yaml)
+```yaml
 doctrine:
     dbal:
         types:
@@ -23,7 +23,7 @@ doctrine:
 
 This Bundle provide type template for Bootstrap 4. Register it in ``config/packages/twig.yaml``
 
-```(yaml)
+```yaml
 twig:
     form_themes:
         - '@PhoneNumber/Form/phone_number_widget.html.twig'
@@ -31,7 +31,7 @@ twig:
 
 You can also overwrite default Symfony Bootstrap 4 template by adding ``- '@PhoneNumber/Form/bootstrap_4_layout.html.twig'`` into ``form_themes`` parameter:
 
-```(yaml)
+```yaml
 twig:
     form_themes:
         - '@PhoneNumber/Form/bootstrap_4_layout.html.twig'
@@ -42,7 +42,7 @@ twig:
 
 Bundle provide additional Doctrine Type and Form Type. First, edit entity to use PhoneNumber Type:
 
-```(php)
+```php
 use Adamski\Symfony\PhoneNumberBundle\Model\PhoneNumber;
 use Adamski\Symfony\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 
@@ -56,7 +56,7 @@ protected $phoneNumber;
 
 Now it's time to provide changes in Form Type:
 
-```(php)
+```php
 use Adamski\Symfony\PhoneNumberBundle\Form\PhoneNumberType;
 
 public function buildForm(FormBuilderInterface $builder, array $options) {
@@ -66,6 +66,16 @@ public function buildForm(FormBuilderInterface $builder, array $options) {
             "required"  => false
         ]);
 }
+```
+
+The displayed phone number in the template can be formatted according to the given pattern.
+For this purpose, the Twig ``phone_number`` filter has been implemented.
+
+```twig
+{{ current_customer.phoneNumber|phone_number('E164') }}
+{{ current_customer.phoneNumber|phone_number('RFC3966') }}
+{{ current_customer.phoneNumber|phone_number('NATIONAL') }}
+{{ current_customer.phoneNumber|phone_number('INTERNATIONAL') }}
 ```
 
 ## License

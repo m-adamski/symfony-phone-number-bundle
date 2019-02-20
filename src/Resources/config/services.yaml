@@ -1,0 +1,5 @@
+services:
+    phone_number_bundle.twig.extension.phone_number:
+        class: Adamski\Symfony\PhoneNumberBundle\Twig\PhoneNumberExtension
+        tags:
+            - { name: twig.extension }
