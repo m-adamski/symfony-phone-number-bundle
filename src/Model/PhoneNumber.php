@@ -77,7 +77,11 @@ class PhoneNumber implements JsonSerializable, Serializable {
      * @return int|null
      */
     public function getCountryCode() {
-        return $this->getPhoneNumberInstance()->getCountryCode();
+        if (false !== ($phoneNumber = $this->getPhoneNumberInstance())) {
+            return $phoneNumber->getCountryCode();
+        }
+
+        return null;
     }
 
     /**
