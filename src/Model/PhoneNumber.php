@@ -77,8 +77,8 @@ class PhoneNumber implements JsonSerializable, Serializable {
      * @return int|null
      */
     public function getCountryCode() {
-        if (false !== ($phoneNumber = $this->getPhoneNumberInstance())) {
-            return $phoneNumber->getCountryCode();
+        if (false !== ($phoneNumberInstance = $this->getPhoneNumberInstance())) {
+            return $phoneNumberInstance->getCountryCode();
         }
 
         return null;
@@ -98,7 +98,7 @@ class PhoneNumber implements JsonSerializable, Serializable {
     /**
      * Format the phone number in international format.
      *
-     * @return string
+     * @return string|null
      */
     public function formatInternational() {
         return $this->format(PhoneNumberFormat::INTERNATIONAL);
@@ -107,7 +107,7 @@ class PhoneNumber implements JsonSerializable, Serializable {
     /**
      * Format the phone number in national format.
      *
-     * @return string
+     * @return string|null
      */
     public function formatNational() {
         return $this->format(PhoneNumberFormat::NATIONAL);
@@ -116,7 +116,7 @@ class PhoneNumber implements JsonSerializable, Serializable {
     /**
      * Format the phone number in E164 format.
      *
-     * @return string
+     * @return string|null
      */
     public function formatE164() {
         return $this->format(PhoneNumberFormat::E164);
@@ -125,7 +125,7 @@ class PhoneNumber implements JsonSerializable, Serializable {
     /**
      * Format the phone number in RFC3966 format.
      *
-     * @return string
+     * @return string|null
      */
     public function formatRFC3966() {
         return $this->format(PhoneNumberFormat::RFC3966);
@@ -137,9 +137,11 @@ class PhoneNumber implements JsonSerializable, Serializable {
      * @return bool
      */
     public function isValidNumber() {
-        return $this->phoneNumberUtil->isValidNumber(
-            $this->getPhoneNumberInstance()
-        );
+        if (false !== ($phoneNumberInstance = $this->getPhoneNumberInstance())) {
+            return $this->phoneNumberUtil->isValidNumber($phoneNumberInstance);
+        }
+
+        return false;
     }
 
     /**
@@ -176,13 +178,13 @@ class PhoneNumber implements JsonSerializable, Serializable {
      * Format the phone number to specified format.
      *
      * @param int $format
-     * @return bool|string
+     * @return string|null
      */
     private function format(int $format) {
-        if ($phoneNumberInstance = $this->getPhoneNumberInstance()) {
+        if (false !== ($phoneNumberInstance = $this->getPhoneNumberInstance())) {
             return $this->phoneNumberUtil->format($phoneNumberInstance, $format);
         }
 
-        return false;
+        return null;
     }
 }
