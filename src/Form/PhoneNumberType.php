@@ -2,12 +2,13 @@
 
 namespace Adamski\Symfony\PhoneNumberBundle\Form;
 
+use Exception;
 use libphonenumber\PhoneNumberUtil;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Intl\Intl;
+use Symfony\Component\Intl\Countries;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PhoneNumberType extends AbstractType {
@@ -131,7 +132,14 @@ class PhoneNumberType extends AbstractType {
         $responseArray = [];
 
         foreach ($countries as $country) {
-            $country["countryName"] = Intl::getRegionBundle()->getCountryName($country["regionCode"]) ?? $country["regionCode"];
+            $regionCode = strtoupper($country["regionCode"]);
+
+            try {
+                $country["countryName"] = Countries::getName($regionCode);
+            } catch (Exception $exception) {
+                $country["countryName"] = $regionCode;
+            };
+
             $responseArray[] = $country;
         }
 
