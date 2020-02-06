@@ -1,6 +1,6 @@
 {
     "name": "m-adamski/symfony-phone-number-bundle",
-    "description": "Bundle for Symfony 4 which integrates with the libphonenumber library",
+    "description": "Bundle for Symfony which integrates with the libphonenumber library",
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
@@ -10,19 +10,17 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.2",
         "ext-json": "*",
-        "giggsey/libphonenumber-for-php": "^8.10",
-        "symfony/form": "^3.4|^4.1",
-        "symfony/framework-bundle": "^3.4|^4.1",
+        "giggsey/libphonenumber-for-php": "^8.11",
+        "symfony/form": "^4.1|^5.0",
+        "symfony/framework-bundle": "^4.1|^5.0",
         "symfony/orm-pack": "^1.0",
-        "symfony/twig-bundle": "^3.4|^4.1",
-        "symfony/validator": "^3.4|^4.1"
+        "symfony/twig-bundle": "^4.1|^5.0",
+        "symfony/validator": "^4.1|^5.0"
     },
     "require-dev": {
-        "kint-php/kint": "^3.0",
-        "phpunit/phpunit": "^7.4",
-        "symfony/phpunit-bridge": "^4.1"
+        "kint-php/kint": "^3.0"
     },
     "config": {
         "sort-packages": true
@@ -39,7 +37,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "2.0.x-dev"
         }
     }
 }

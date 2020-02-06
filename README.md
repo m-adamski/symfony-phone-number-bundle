@@ -1,6 +1,8 @@
-# PhoneNumber Bundle for Symfony 4
+# PhoneNumber Bundle for Symfony
 
 Custom PhoneNumber Bundle integrating [libphonenumber](https://github.com/giggsey/libphonenumber-for-php) library into Symfony 4 project. This bundle is inspired by [PhoneNumberBundle](https://github.com/misd-service-development/phone-number-bundle) but simplified and created for own projects.
+
+This bundle is compatible with Symfony 4.1 and Symfony 5.0. Symfony 3.4 compatibility abandoned.
 
 ## Installation
 
