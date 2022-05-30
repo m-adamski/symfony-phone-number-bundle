@@ -1,12 +1,10 @@
 # PhoneNumber Bundle for Symfony
 
-Custom PhoneNumber Bundle integrating [libphonenumber](https://github.com/giggsey/libphonenumber-for-php) library into Symfony 4 project. This bundle is inspired by [PhoneNumberBundle](https://github.com/misd-service-development/phone-number-bundle) but simplified and created for own projects.
-
-This bundle is compatible with Symfony 4.1 and Symfony 5.0. Symfony 3.4 compatibility abandoned.
+Custom PhoneNumber Bundle integrating [libphonenumber](https://github.com/giggsey/libphonenumber-for-php) library into Symfony project. This bundle is inspired by [PhoneNumberBundle](https://github.com/misd-service-development/phone-number-bundle) but simplified and created for own projects.
 
 ## Installation
 
-Use Composer to install this bundle into Symfony 4 project:
+Use Composer to install this bundle into Symfony project:
 
 ```
 $ composer require m-adamski/symfony-phone-number-bundle
@@ -45,8 +43,7 @@ twig:
 Bundle provide additional Doctrine Type and Form Type. First, edit entity to use PhoneNumber Type:
 
 ```php
-use Adamski\Symfony\PhoneNumberBundle\Model\PhoneNumber;
-use Adamski\Symfony\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
+use Adamski\Symfony\PhoneNumberBundle\Validator\PhoneNumber as AssertPhoneNumber;
 
 /**
  * @var string

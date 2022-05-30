@@ -9,15 +9,14 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 class PhoneNumberTransformer implements DataTransformerInterface {
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function transform($value) {
-
         if (!$value) {
             return ["country" => "", "number" => ""];
         }
 
-        if ($value && !$value instanceof PhoneNumber) {
+        if (!$value instanceof PhoneNumber) {
             throw new TransformationFailedException("Expected instance of Adamski\Symfony\PhoneNumberBundle\Model\PhoneNumber class");
         }
 
@@ -28,10 +27,9 @@ class PhoneNumberTransformer implements DataTransformerInterface {
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function reverseTransform($value) {
-
         if (!$value) {
             return null;
         }

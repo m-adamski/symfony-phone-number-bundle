@@ -11,20 +11,9 @@ use libphonenumber\NumberParseException;
 
 class PhoneNumber implements JsonSerializable, Serializable {
 
-    /**
-     * @var string
-     */
-    protected $number;
-
-    /**
-     * @var string
-     */
-    protected $country;
-
-    /**
-     * @var PhoneNumberUtil
-     */
-    protected $phoneNumberUtil;
+    protected string          $number;
+    protected string          $country;
+    protected PhoneNumberUtil $phoneNumberUtil;
 
     /**
      * PhoneNumber constructor.
@@ -54,7 +43,7 @@ class PhoneNumber implements JsonSerializable, Serializable {
      * @param string $country
      * @return static
      */
-    public static function make(string $number, string $country = PhoneNumberUtil::UNKNOWN_REGION) {
+    public static function make(string $number, string $country = PhoneNumberUtil::UNKNOWN_REGION): static {
         return new static($number, $country);
     }
 
@@ -63,7 +52,7 @@ class PhoneNumber implements JsonSerializable, Serializable {
      *
      * @return bool|BasePhoneNumber
      */
-    public function getPhoneNumberInstance() {
+    public function getPhoneNumberInstance(): BasePhoneNumber|bool {
         try {
             return $this->phoneNumberUtil->parse($this->number, $this->country);
         } catch (NumberParseException $exception) {
@@ -76,7 +65,7 @@ class PhoneNumber implements JsonSerializable, Serializable {
      *
      * @return int|null
      */
-    public function getCountryCode() {
+    public function getCountryCode(): ?int {
         if (false !== ($phoneNumberInstance = $this->getPhoneNumberInstance())) {
             return $phoneNumberInstance->getCountryCode();
         }
@@ -89,7 +78,7 @@ class PhoneNumber implements JsonSerializable, Serializable {
      *
      * @return string
      */
-    public function getRegionCode() {
+    public function getRegionCode(): string {
         return $this->phoneNumberUtil->getRegionCodeForCountryCode(
             $this->getCountryCode()
         );
@@ -100,7 +89,7 @@ class PhoneNumber implements JsonSerializable, Serializable {
      *
      * @return string|null
      */
-    public function formatInternational() {
+    public function formatInternational(): ?string {
         return $this->format(PhoneNumberFormat::INTERNATIONAL);
     }
 
@@ -109,7 +98,7 @@ class PhoneNumber implements JsonSerializable, Serializable {
      *
      * @return string|null
      */
-    public function formatNational() {
+    public function formatNational(): ?string {
         return $this->format(PhoneNumberFormat::NATIONAL);
     }
 
@@ -118,7 +107,7 @@ class PhoneNumber implements JsonSerializable, Serializable {
      *
      * @return string|null
      */
-    public function formatE164() {
+    public function formatE164(): ?string {
         return $this->format(PhoneNumberFormat::E164);
     }
 
@@ -127,7 +116,7 @@ class PhoneNumber implements JsonSerializable, Serializable {
      *
      * @return string|null
      */
-    public function formatRFC3966() {
+    public function formatRFC3966(): ?string {
         return $this->format(PhoneNumberFormat::RFC3966);
     }
 
@@ -136,7 +125,7 @@ class PhoneNumber implements JsonSerializable, Serializable {
      *
      * @return bool
      */
-    public function isValidNumber() {
+    public function isValidNumber(): bool {
         if (false !== ($phoneNumberInstance = $this->getPhoneNumberInstance())) {
             return $this->phoneNumberUtil->isValidNumber($phoneNumberInstance);
         }
@@ -145,23 +134,23 @@ class PhoneNumber implements JsonSerializable, Serializable {
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function serialize() {
+    public function serialize(): ?string {
         return $this->formatE164();
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function unserialize($serialized) {
+    public function unserialize($data) {
         $this->phoneNumberUtil = PhoneNumberUtil::getInstance();
-        $this->number = $serialized;
+        $this->number = $data;
         $this->country = $this->phoneNumberUtil->getRegionCodeForNumber($this->getPhoneNumberInstance());
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function jsonSerialize() {
         return $this->formatE164();
@@ -180,7 +169,7 @@ class PhoneNumber implements JsonSerializable, Serializable {
      * @param int $format
      * @return string|null
      */
-    private function format(int $format) {
+    private function format(int $format): ?string {
         if (false !== ($phoneNumberInstance = $this->getPhoneNumberInstance())) {
             return $this->phoneNumberUtil->format($phoneNumberInstance, $format);
         }

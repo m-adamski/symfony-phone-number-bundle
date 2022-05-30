@@ -9,9 +9,9 @@ use Twig\TwigFilter;
 class PhoneNumberExtension extends AbstractExtension {
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getFilters() {
+    public function getFilters(): array {
         return [
             new TwigFilter("phone_number", [$this, "phoneNumberFilter"])
         ];
@@ -24,7 +24,7 @@ class PhoneNumberExtension extends AbstractExtension {
      * @param string      $format
      * @return string
      */
-    public function phoneNumberFilter(PhoneNumber $phoneNumber, string $format = "E164") {
+    public function phoneNumberFilter(PhoneNumber $phoneNumber, string $format = "E164"): string {
 
         // Map available formats to functions
         $availableFormat = [

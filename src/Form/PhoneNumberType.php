@@ -13,10 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PhoneNumberType extends AbstractType {
 
-    /**
-     * @var PhoneNumberUtil
-     */
-    protected $phoneNumberUtil;
+    protected PhoneNumberUtil $phoneNumberUtil;
 
     /**
      * PhoneNumberType constructor.
@@ -26,11 +23,9 @@ class PhoneNumberType extends AbstractType {
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
-
-        // Define global config array for both fields
         $config = [
             "label"              => false,
             "disabled"           => $options["disabled"],
@@ -52,7 +47,7 @@ class PhoneNumberType extends AbstractType {
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults([
@@ -67,9 +62,9 @@ class PhoneNumberType extends AbstractType {
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getBlockPrefix() {
+    public function getBlockPrefix(): string {
         return "phone_number";
     }
 
@@ -79,8 +74,7 @@ class PhoneNumberType extends AbstractType {
      * @param array $customChoices
      * @return array
      */
-    private function generateChoices(array $customChoices) {
-
+    private function generateChoices(array $customChoices): array {
         $countriesArray = [];
 
         if ($customChoices && count($customChoices) > 0) {
@@ -128,7 +122,7 @@ class PhoneNumberType extends AbstractType {
      * @param array $countries
      * @return array
      */
-    private function translateCountries(array $countries) {
+    private function translateCountries(array $countries): array {
         $responseArray = [];
 
         foreach ($countries as $country) {
@@ -152,7 +146,7 @@ class PhoneNumberType extends AbstractType {
      * @param $customChoices
      * @return array
      */
-    private function getPreferredChoices($customChoices) {
+    private function getPreferredChoices($customChoices): array {
         if ($customChoices) {
             if (is_array($customChoices)) {
                 return array_filter($customChoices, function ($regionCode) {

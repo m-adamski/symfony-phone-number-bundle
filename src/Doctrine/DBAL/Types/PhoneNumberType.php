@@ -9,17 +9,17 @@ use Adamski\Symfony\PhoneNumberBundle\Model\PhoneNumber;
 class PhoneNumberType extends Type {
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform) {
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string {
         return $platform->getVarcharTypeDeclarationSQL(["length" => 35]);
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform) {
-        if ($value && $value instanceof PhoneNumber) {
+    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed {
+        if ($value instanceof PhoneNumber) {
             return $value->formatE164();
         }
 
@@ -27,9 +27,9 @@ class PhoneNumberType extends Type {
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform) {
+    public function convertToPHPValue($value, AbstractPlatform $platform): mixed {
         if (is_null($value) || $value instanceof PhoneNumber) {
             return $value;
         }
@@ -38,16 +38,16 @@ class PhoneNumberType extends Type {
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function requiresSQLCommentHint(AbstractPlatform $platform) {
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool {
         return true;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getName() {
+    public function getName(): string {
         return "phone_number";
     }
 }
