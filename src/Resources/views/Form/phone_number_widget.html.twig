@@ -4,13 +4,13 @@
         {% set validation_class = ' is-invalid' %}
     {% endif %}
 
-    {% set attr = attr|merge({class: (attr.class|default('') ~ ' form-row' ~ validation_class)|trim}) %}
-    <section {{ block('widget_container_attributes') }}>
-        <section class="col">
+    {% set attr = attr|merge({class: (attr.class|default('') ~ ' row' ~ validation_class)|trim}) %}
+    <div {{ block('widget_container_attributes') }}>
+        <div class="col">
             {{- form_widget(form.country) -}}
-        </section>
-        <section class="col">
+        </div>
+        <div class="col">
             {{- form_widget(form.number, {'attr': {'placeholder': attr.placeholder|default('')}}) -}}
-        </section>
-    </section>
+        </div>
+    </div>
 {%- endblock phone_number_widget %}

@@ -29,28 +29,16 @@ twig:
         - '@PhoneNumber/Form/phone_number_widget.html.twig'
 ```
 
-You can also overwrite default Symfony Bootstrap 4 template by adding ``- '@PhoneNumber/Form/bootstrap_4_layout.html.twig'`` into ``form_themes`` parameter:
-
-```yaml
-twig:
-    form_themes:
-        - '@PhoneNumber/Form/bootstrap_4_layout.html.twig'
-        - '@PhoneNumber/Form/phone_number_widget.html.twig'
-```
-
 ## How to use it?
 
 Bundle provide additional Doctrine Type and Form Type. First, edit entity to use PhoneNumber Type:
 
 ```php
-use Adamski\Symfony\PhoneNumberBundle\Validator\PhoneNumber as AssertPhoneNumber;
+use Adamski\Symfony\PhoneNumberBundle\Validator as AssertPhoneNumber;
 
-/**
- * @var string
- * @AssertPhoneNumber
- * @ORM\Column(name="phone_number", type="phone_number", nullable=true)
- */
-protected $phoneNumber;
+#[AssertPhoneNumber\PhoneNumber]
+#[ORM\Column(type: "phone_number", nullable: true)]
+protected PhoneNumber $phoneNumber;
 ```
 
 Now it's time to provide changes in Form Type:
