@@ -2,15 +2,13 @@
 
 namespace Adamski\Symfony\PhoneNumberBundle\Twig;
 
-use Adamski\Symfony\PhoneNumberBundle\Model\PhoneNumber;
+use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberUtil;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 class PhoneNumberExtension extends AbstractExtension {
-
-    /**
-     * {@inheritDoc}
-     */
     public function getFilters(): array {
         return [
             new TwigFilter("phone_number", [$this, "phoneNumberFilter"])
@@ -18,30 +16,31 @@ class PhoneNumberExtension extends AbstractExtension {
     }
 
     /**
-     * Format the phone number according to the pattern provided.
-     *
-     * @param PhoneNumber $phoneNumber
-     * @param string      $format
+     * @param string $number
+     * @param string $format
      * @return string
      */
-    public function phoneNumberFilter(PhoneNumber $phoneNumber, string $format = "E164"): string {
+    public function phoneNumberFilter(string $number, string $format = "E164"): string {
+        $phoneNumberUtil = PhoneNumberUtil::getInstance();
 
-        // Map available formats to functions
         $availableFormat = [
-            "E164"          => "formatE164",
-            "RFC3966"       => "formatRFC3966",
-            "NATIONAL"      => "formatNational",
-            "INTERNATIONAL" => "formatInternational"
+            "E164"          => PhoneNumberFormat::E164,
+            "RFC3966"       => PhoneNumberFormat::RFC3966,
+            "NATIONAL"      => PhoneNumberFormat::NATIONAL,
+            "INTERNATIONAL" => PhoneNumberFormat::INTERNATIONAL
         ];
 
         // Uppercase specified format
         $format = strtoupper($format);
 
-        // Check if specified format is available
-        if (array_key_exists($format, $availableFormat)) {
-            return $phoneNumber->{$availableFormat[$format]}();
+        try {
+            if (null !== ($phoneNumber = $phoneNumberUtil->parse($number))) {
+                return $phoneNumberUtil->format($phoneNumber, $availableFormat[$format]);
+            }
+        } catch (NumberParseException $exception) {
+            return $number;
         }
 
-        return $phoneNumber->formatE164();
+        return $number;
     }
 }

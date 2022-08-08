@@ -10,12 +10,5 @@ use Symfony\Component\Validator\Constraint;
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
 class PhoneNumber extends Constraint {
-    public string $message = "Provided phone number is incorrect";
-
-    /**
-     * {@inheritDoc}
-     */
-    public function validatedBy(): string {
-        return PhoneNumberValidator::class;
-    }
+    public string $message = "Phone number is not valid";
 }

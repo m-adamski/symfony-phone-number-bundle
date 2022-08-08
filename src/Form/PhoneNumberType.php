@@ -2,7 +2,7 @@
 
 namespace Adamski\Symfony\PhoneNumberBundle\Form;
 
-use Exception;
+use Adamski\Symfony\PhoneNumberBundle\Form\DataTransformer\PhoneNumberToStringTransformer;
 use libphonenumber\PhoneNumberUtil;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -12,12 +12,8 @@ use Symfony\Component\Intl\Countries;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PhoneNumberType extends AbstractType {
+    private PhoneNumberUtil $phoneNumberUtil;
 
-    protected PhoneNumberUtil $phoneNumberUtil;
-
-    /**
-     * PhoneNumberType constructor.
-     */
     public function __construct() {
         $this->phoneNumberUtil = PhoneNumberUtil::getInstance();
     }
@@ -26,24 +22,19 @@ class PhoneNumberType extends AbstractType {
      * {@inheritDoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $config = [
-            "label"              => false,
-            "disabled"           => $options["disabled"],
-            "translation_domain" => $options["translation_domain"]
-        ];
-
-        $builder->add("country", ChoiceType::class, array_merge($config, [
-            "choices"           => $this->generateChoices($options["countries"]),
-            "preferred_choices" => $this->getPreferredChoices($options["preferred"]),
-            "required"          => true
-        ]))->add("number", TextType::class, array_merge($config, [
-            "required" => $options["required"],
-            "attr"     => [
-                "placeholder" => $options["placeholder"]
-            ]
-        ]))->addViewTransformer(
-            new PhoneNumberTransformer()
-        );
+        $builder
+            ->add("country", ChoiceType::class, [
+                "label"             => false,
+                "choices"           => $this->generateChoices($options["countries"], $options["countries_renderer"]),
+                "preferred_choices" => $this->getPreferredChoices($options["preferred"]),
+                "required"          => true
+            ])
+            ->add("number", TextType::class, [
+                "label"    => false,
+                "attr"     => ["placeholder" => $options["placeholder"]],
+                "required" => $options["required"]
+            ])
+            ->addViewTransformer(new PhoneNumberToStringTransformer());
     }
 
     /**
@@ -51,13 +42,11 @@ class PhoneNumberType extends AbstractType {
      */
     public function configureOptions(OptionsResolver $resolver) {
         $resolver->setDefaults([
-            "countries"       => [],
-            "preferred"       => [],
-            "selected"        => false,
-            "placeholder"     => false,
-            "invalid_message" => "Provided phone number is incorrect",
-            "by_reference"    => false,
-            "error_bubbling"  => false
+            "countries"          => [],
+            "countries_renderer" => null,
+            "preferred"          => [],
+            "placeholder"        => "",
+            "error_bubbling"     => false
         ]);
     }
 
@@ -69,12 +58,13 @@ class PhoneNumberType extends AbstractType {
     }
 
     /**
-     * Generate choices array.
+     * Generate countries.
      *
-     * @param array $customChoices
+     * @param array         $customChoices
+     * @param callable|null $renderer
      * @return array
      */
-    private function generateChoices(array $customChoices): array {
+    private function generateChoices(array $customChoices, ?callable $renderer): array {
         $countriesArray = [];
 
         if ($customChoices && count($customChoices) > 0) {
@@ -110,7 +100,12 @@ class PhoneNumberType extends AbstractType {
         // Generate response array
         $responseArray = [];
         foreach ($translatedCountries as $country) {
-            $responseArray[sprintf("%s (+%d)", $country["countryName"], $country["countryCode"])] = $country["regionCode"];
+            if (is_callable($renderer)) {
+                $rendererResult = call_user_func($renderer, $country["countryName"], $country["countryCode"], $country["regionCode"]);
+                $responseArray[$rendererResult] = $country["regionCode"];
+            } else {
+                $responseArray[sprintf("%s (+%d)", $country["countryName"], $country["countryCode"])] = $country["regionCode"];
+            }
         }
 
         return $responseArray;
@@ -130,7 +125,7 @@ class PhoneNumberType extends AbstractType {
 
             try {
                 $country["countryName"] = Countries::getName($regionCode);
-            } catch (Exception $exception) {
+            } catch (\Exception $exception) {
                 $country["countryName"] = $regionCode;
             };
 
@@ -143,10 +138,10 @@ class PhoneNumberType extends AbstractType {
     /**
      * Generate array with preferred choices.
      *
-     * @param $customChoices
+     * @param string|array $customChoices
      * @return array
      */
-    private function getPreferredChoices($customChoices): array {
+    private function getPreferredChoices(mixed $customChoices): array {
         if ($customChoices) {
             if (is_array($customChoices)) {
                 return array_filter($customChoices, function ($regionCode) {

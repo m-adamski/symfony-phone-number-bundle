@@ -17,7 +17,6 @@
         "symfony/form": "^6.0",
         "symfony/framework-bundle": "^6.0",
         "symfony/intl": "^6.0",
-        "symfony/orm-pack": "^2.0",
         "symfony/twig-bundle": "^6.0",
         "symfony/validator": "^6.0"
     },
