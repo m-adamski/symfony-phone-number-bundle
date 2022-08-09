@@ -17,9 +17,9 @@ class PhoneNumberToStringTransformer implements DataTransformerInterface {
 
     /**
      * @param mixed $value
-     * @return string[]
+     * @return array|null
      */
-    public function transform(mixed $value): array {
+    public function transform(mixed $value): ?array {
         if (null !== $value && "0" !== $value) {
             try {
                 if (null !== ($phoneNumber = $this->phoneNumberUtil->parse($value))) {
@@ -33,7 +33,7 @@ class PhoneNumberToStringTransformer implements DataTransformerInterface {
             }
         }
 
-        return ["country" => "", "number" => ""];
+        return null;
     }
 
     /**
@@ -42,12 +42,17 @@ class PhoneNumberToStringTransformer implements DataTransformerInterface {
      */
     public function reverseTransform(mixed $value): ?string {
         if (is_array($value) && array_key_exists("country", $value) && array_key_exists("number", $value)) {
-            try {
-                $phoneNumber = $this->phoneNumberUtil->parse($value["number"], $value["country"]);
+            $country = $value["country"];
+            $number = $value["number"];
 
-                return $this->phoneNumberUtil->format($phoneNumber, PhoneNumberFormat::E164);
-            } catch (NumberParseException $exception) {
-                throw new TransformationFailedException("Exception while PhoneNumber transformation");
+            if (null !== $country && null !== $number) {
+                try {
+                    $phoneNumber = $this->phoneNumberUtil->parse($number, $country);
+
+                    return $this->phoneNumberUtil->format($phoneNumber, PhoneNumberFormat::E164);
+                } catch (NumberParseException $exception) {
+                    throw new TransformationFailedException("Exception while PhoneNumber transformation");
+                }
             }
         }
 
