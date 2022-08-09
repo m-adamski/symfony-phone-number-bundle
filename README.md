@@ -50,7 +50,7 @@ public function buildForm(FormBuilderInterface $builder, array $options) {
         "countries_renderer" => function ($countryName, $countryCode, $regionCode) {
             return sprintf("%s (+%d)", $countryName, $countryCode);
         },
-        "placeholder" => "e.g. 123 123 123",
+        "number_attr" => ["placeholder" => "e.g. 123 123 123"],
         "required"    => false
     ]);
 }
@@ -60,7 +60,8 @@ There are some additional options that you can use:
 
 - countries - array of available countries e.g. ["PL", "DE"]
 - preferred - array or string with preferred country or countries
-- placeholder - placeholder content for the number input
+- country_attr - attributes for country input
+- number_attr - attributes for number input
 - countries_renderer - a function that returns a string displayed as a country selection option. The following
   parameters are available: countryName, countryCode, regionCode
 

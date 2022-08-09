@@ -27,11 +27,12 @@ class PhoneNumberType extends AbstractType {
                 "label"             => false,
                 "choices"           => $this->generateChoices($options["countries"], $options["countries_renderer"]),
                 "preferred_choices" => $this->getPreferredChoices($options["preferred"]),
+                "attr"              => $options["country_attr"],
                 "required"          => true
             ])
             ->add("number", TextType::class, [
                 "label"    => false,
-                "attr"     => ["placeholder" => $options["placeholder"]],
+                "attr"     => $options["number_attr"],
                 "required" => $options["required"]
             ])
             ->addViewTransformer(new PhoneNumberToStringTransformer());
@@ -45,7 +46,8 @@ class PhoneNumberType extends AbstractType {
             "countries"          => [],
             "countries_renderer" => null,
             "preferred"          => [],
-            "placeholder"        => "",
+            "country_attr"       => [],
+            "number_attr"        => [],
             "error_bubbling"     => false
         ]);
     }
