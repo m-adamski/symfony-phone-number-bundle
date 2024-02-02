@@ -10,18 +10,18 @@
         }
     ],
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "giggsey/libphonenumber-for-php": "^8.12",
-        "symfony/form": "^6.0",
-        "symfony/framework-bundle": "^6.0",
-        "symfony/intl": "^6.0",
-        "symfony/twig-bundle": "^6.0",
-        "symfony/validator": "^6.0"
+        "giggsey/libphonenumber-for-php": "^8.13",
+        "symfony/form": "^7.0",
+        "symfony/framework-bundle": "^7.0",
+        "symfony/intl": "^7.0",
+        "symfony/twig-bundle": "^7.0",
+        "symfony/validator": "^7.0"
     },
     "require-dev": {
-        "kint-php/kint": "^4.0"
+        "kint-php/kint": "^5.0"
     },
     "config": {
         "sort-packages": true
@@ -38,7 +38,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.0.x-dev"
+            "dev-master": "4.0.x-dev"
         }
     }
 }

@@ -21,7 +21,7 @@ class PhoneNumberType extends AbstractType {
     /**
      * {@inheritDoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder
             ->add("country", ChoiceType::class, [
                 "label"             => false,
@@ -41,7 +41,7 @@ class PhoneNumberType extends AbstractType {
     /**
      * {@inheritDoc}
      */
-    public function configureOptions(OptionsResolver $resolver) {
+    public function configureOptions(OptionsResolver $resolver): void {
         $resolver->setDefaults([
             "countries"          => [],
             "countries_renderer" => null,
