@@ -24,11 +24,12 @@ class PhoneNumberType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options): void {
         $builder
             ->add("country", ChoiceType::class, [
-                "label"             => false,
-                "choices"           => $this->generateChoices($options["countries"], $options["countries_renderer"]),
-                "preferred_choices" => $this->getPreferredChoices($options["preferred"]),
-                "attr"              => $options["country_attr"],
-                "required"          => true
+                "label"                     => false,
+                "choices"                   => $this->generateChoices($options["countries"], $options["countries_renderer"]),
+                "choice_translation_domain" => false,
+                "preferred_choices"         => $this->getPreferredChoices($options["preferred"]),
+                "attr"                      => $options["country_attr"],
+                "required"                  => true
             ])
             ->add("number", TextType::class, [
                 "label"    => false,
